@@ -12,7 +12,7 @@ module.exports = {
             message.author.createDM().then(channel => {
                 channel.send({embed : {
                     color: 0x152975,
-                    title: `\n__Salut ${message.author.username} 👋, les commandes admins suivantes sont disponibles pour CleanBot  :__\n\n`,
+                    title: `\nSalut ${message.author.username} 👋, voici les commandes admins de CleanBot :\n\n`,
                     description: '**_helpadmin** [*Affiche un liste des commandes admins disponibles et leurs effets*]',
                 }})
             })

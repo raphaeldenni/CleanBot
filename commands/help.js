@@ -10,7 +10,7 @@ module.exports = {
         message.author.createDM().then(channel => {
             channel.send({embed : {
                 color: 0x152975,
-                title: `\n__Salut ${message.author.username} 👋, les commandes suivantes sont disponibles pour CleanBot :__\n\n`,
+                title: `\nSalut ${message.author.username} 👋, voici les commandes de CleanBot :\n\n`,
                 description: '**_help** [*Affiche un liste des commandes disponibles et leurs effets*]\n**_ping** [*Affiche la latence du bot en ms*]',
             }})
         })
