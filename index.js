@@ -3,11 +3,13 @@
 
 // Const of the bot
 const { Discord, Client, Collection} = require('discord.js');
-const client = new Client();
 const fs = require("fs");
-const package = require("./package.json");
 require("dotenv").config();
+const package = require("./package.json");
 const config = require("./modules/config.json");
+const welcome = require("./modules/welcome");
+welcome(client);
+const client = new Client();
 const prefix = config.prefix
 client.commands = new Collection();
 
