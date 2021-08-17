@@ -1,4 +1,6 @@
 {
     "prefix" : "_",
-    "language" : "fr"
+    "language" : "fr",
+    "CHANNEL_WELCOME": "",
+    "ROLES_WELCOME": ["",""]
 }
