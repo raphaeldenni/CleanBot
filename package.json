@@ -1,0 +1,23 @@
+{
+  "name": "CleanBot",
+  "version": "0.0.1",
+  "description": "Coming soon...",
+  "main": "index.js",
+  "author": "SlyEyes#5557",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^10.0.0"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "license": "",
+  "keywords": [
+    "node",
+    "bot",
+    "Discord"
+  ]
+}
