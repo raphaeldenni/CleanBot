@@ -36,7 +36,7 @@ client.on("ready", () =>{
   client.user.setPresence({
       status: "online",
       activity: {
-          name: `la liste ${prefix}help`,
+          name: `${prefix}help et cleanwalk.org`,
           type: "WATCHING"
   }})
 })
