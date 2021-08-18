@@ -6,12 +6,12 @@ module.exports = {
         if (message.member.guild.me.hasPermission('ADMINISTRATOR')) {
             message.delete({timeout: 1});
             message.reply({embed : {
-                color: 0x152975,
+                color: 0x2140b6,
                 description: '📜 Une liste des commandes admins disponibles vous a été envoyé en message privé',
             }})
             message.author.createDM().then(channel => {
                 channel.send({embed : {
-                    color: 0x152975,
+                    color: 0x2140b6,
                     title: `\nSalut ${message.author.username} 👋, voici les commandes admins de CleanBot :\n\n`,
                     description: '**_helpadmin** [*Affiche un liste des commandes admins disponibles et leurs effets*]',
                 }})
