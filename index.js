@@ -5,10 +5,8 @@
 const { Discord, Client, Collection} = require('discord.js');
 const fs = require("fs");
 require("dotenv").config();
-const package = require("./package.json");
 const config = require("./modules/config.json");
-const welcome = require("./modules/welcome");
-welcome(client);
+const welcome = require("./modules/welcome.js");
 const client = new Client();
 const prefix = config.prefix
 client.commands = new Collection();
@@ -58,8 +56,11 @@ client.on('message', message => {
   }
 });
 
+// Welcome message for new member
+client.on('guildMemberAdd', async () => {welcome.newUser})
+
 /*
-Copyright 2021 Cleanwalk.org
+Copyright 2021 Raphaël DENNI & Cleanwalk.org
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
