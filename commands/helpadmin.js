@@ -3,7 +3,7 @@ module.exports = {
     description: 'Affiche un liste des commandes admins disponibles',
     execute(message) {
 
-        if (message.member.guild.me.hasPermission('ADMINISTRATOR')) {
+        if (message.author.guild.me.hasPermission('ADMINISTRATOR')) {
             message.delete({timeout: 1});
             message.reply({embed : {
                 color: 0x2140b6,
