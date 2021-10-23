@@ -20,7 +20,7 @@ async function newUser () {
 	};
 	
 
-	const channel = member.guild.channels.cache.find(ch => ch.name === "text-1");
+	const channel = member.guild.channels.cache.find(ch => ch.name === welcome_channel);
 	if (!channel) return;
 	
 	const canvas = Canvas.createCanvas(700, 250);
