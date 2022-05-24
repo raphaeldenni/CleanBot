@@ -1,15 +1,23 @@
+// Count replacement
 module.exports = {
-    name: 'ping',
-    description: 'Affiche la latence du bot en ms',
-    execute(message, args) {
+    name: 'count_replace',
+    description: 'Compteur qui remplace les nombres tapés par les utilisteurs par un embed dans un salon spécifique',
+    execute: async (message, count_channel) => {
+        num = parseInt(message.content);
+
+        if (message.author.bot || message.channel.id != count_channel || isNaN(num)) return;
+        
         message.delete({timeout: 1});
-        message.reply({embed : {
-            color: 0x2140b6,
-            title: 'Pong 🏓',
-            description: `Latence du bot : ${Date.now() - message.createdTimestamp} ms`,
-        }})
+
+        message.channel.send({embed : {
+            color: '#0000ff',
+            description: `:chart_with_upwards_trend: ${num}`,
+            footer: ({text: `${message.author.username}`, iconURL: `${message.author.avatarURL()}`})
+        }});
+
     }
-}
+
+};
 
 /*
 Copyright 2021-2022 Raphaël DENNI & Cleanwalk.org

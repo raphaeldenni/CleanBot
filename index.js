@@ -2,32 +2,52 @@
 // Github : https://github.com/SlyEyes
 
 // Const of the bot
-const { Discord, Client, Collection, Guild} = require('discord.js');
+const { Discord, Client, Permissions, Collection, MessageAttachment} = require('discord.js');
+
 const fs = require("fs");
+
+const Canvas = require('canvas');
+
+const config = require("./ressources/config.json");
+
+Canvas.registerFont('./ressources/OdibeeSans-Regular.ttf', { family: 'Odibee' })
+
 require("dotenv").config();
 
-const client = new Client();
-const config = require("./modules/config.json");
+
+const intents = ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS', 'GUILD_PRESENCES']
+
+const client = new Client({intents: intents, ws:{intents: intents}});
+
 const prefix = config.prefix
+
 client.commands = new Collection();
+
+const welcome_channel = config.welcome_channel
+
+const count_channel = config.count_channel
+
+const welcome_off = config.welcome_off
 
 // Connection with the token
 client.login(process.env.BOT_TOKEN);
 
-// Search for the command file and add it to a collection
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-console.log(commandFiles);
+// Search for the commands and modules files and add them to a collection
+function fileSearch(folderName) {
+  const Files = fs.readdirSync(`./${folderName}`).filter(file => file.endsWith('.js'));
+  console.log(Files);
 
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
-}
-console.log(client.commands);
+  for (const file of Files) {
+    const fileName = require(`./${folderName}/${file}`);
+    client.commands.set(fileName.name, fileName);
+  }
 
-// Connection established message
-client.on('ready', function () {
-  console.log("\nCleanBot#9208 connected !");
-})
+  console.log(client.commands);
+
+};
+
+fileSearch('commands')
+fileSearch('modules')
 
 // Status of the bot
 client.on("ready", () =>{
@@ -36,7 +56,10 @@ client.on("ready", () =>{
       activity: {
           name: `${prefix}help et cleanwalk.org`,
           type: "WATCHING"
-  }})
+  }});
+
+  console.log("\nCleanBot#9208 connected !");
+
 })
 
 // Read the message of the user and execute or not a command
@@ -57,8 +80,24 @@ client.on('message', message => {
   }
 });
 
+client.on('message', message => {
+	if (message.content === '!join') {
+		client.emit('guildMemberAdd', message.member);
+	}
+});
+
+// Welcome message
+client.on('guildMemberAdd', async member => {
+  client.commands.get('welcome').execute(member, Canvas, MessageAttachment, welcome_channel);
+  });
+
+// Count replacement
+client.on('message', message => {
+  client.commands.get('count_replace').execute(message, count_channel);
+});
+
 /*
-Copyright 2021 Raphaël DENNI & Cleanwalk.org
+Copyright 2021-2022 Raphaël DENNI & Cleanwalk.org
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
