@@ -11,7 +11,7 @@ module.exports = {
         message.reply({
             embed: {
                 color: 0x2140b6,
-                title: '**Voici la liste des rôles de régions et la répartition des membres actuellement en ligne :**',
+                title: '**Voici la liste des rôles de régions et la répartition des membres :**',
                 description: roles.filter(r => r.name != "@everyone").map(role => `${role.name} : ${role.members.size}`).join('\n'),
 
             }
