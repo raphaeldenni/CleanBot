@@ -1,4 +1,4 @@
-// CleanBot#9208 by SlyEyes#5557
+// CleanBot#9208 by Raphaël Denni aka SlyEyes#5557
 // Github : https://github.com/SlyEyes
 
 // Const of the bot
@@ -81,7 +81,7 @@ client.on('message', message => {
 });
 
 client.on('message', message => {
-	if (message.content === '!join') {
+	if (message.content === '!join' && message.member.hasPermission('ADMINISTRATOR') == true){
 		client.emit('guildMemberAdd', message.member);
 	}
 });
