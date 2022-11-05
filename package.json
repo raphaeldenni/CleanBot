@@ -1,6 +1,6 @@
 {
   "name": "CleanBot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A discord bot for the Discord server of the french cleanwalk platform Cleanwalk.org",
   "main": "index.js",
   "author": "Raphaël Denni aka SlyEyes#5557",
@@ -8,13 +8,13 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "canvas": "^2.8.0",
-    "discord.js": "^12.5.3",
+    "@napi-rs/canvas": "^0.1.30",
+    "discord.js": "^14.6.0",
     "dotenv": "^10.0.0",
     "puppeteer": "^14.4.1"
   },
   "engines": {
-    "node": "12.x"
+    "node": "v18.12.0"
   },
   "license": "Apache 2.0",
   "keywords": [

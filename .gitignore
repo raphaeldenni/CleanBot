@@ -1,3 +1,4 @@
-node_modules/
-ressources/*
-*.env
+node_modules
+ressources
+.env
+/deploy-commands.js
