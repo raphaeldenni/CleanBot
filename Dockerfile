@@ -15,4 +15,4 @@ RUN pnpm install
 
 COPY . /app
 
-CMD [ "pnpm", "start" ]
+CMD [ "pnpm", "start-full" ]

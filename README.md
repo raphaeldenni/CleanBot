@@ -11,12 +11,11 @@ The project use the **PNPM** package manager!
 
 ## Environment
 
-3 variables are required to be into a file located at `./ressources/config.json` :
-- `clientId` : the client ID of your bot
-- `guildId` : the ID of the guild where the bot will be used
-- `welcome_channel` : the ID of the welcome channel
-- `count_channel` : the ID of the count channel
+The project use a `.env` :
 
-The project use a `.env` file for the token :
-
-`BOT_TOKEN=[your_token]`
+```env
+CLIENT_ID=
+GUILD_ID=
+GUILD_ID_TEST=
+BOT_TOKEN=
+```
