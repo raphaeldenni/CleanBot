@@ -24,15 +24,15 @@ const path = require("node:path");
 
 const Canvas = require("@napi-rs/canvas");
 
-const config = require("./ressources/config.json");
+//const config = require("./ressources/config.json");
 
 //Canvas.registerFont('./ressources/OdibeeSans-Regular.ttf', { family: 'Odibee' });
 
 require("dotenv").config();
 
-const welcome_channel = config.welcome_channel;
+//const welcome_channel = config.welcome_channel;
 
-const count_channel = config.count_channel;
+//const count_channel = config.count_channel;
 
 // Create the client
 const client = new Client({
@@ -94,4 +94,6 @@ client.on("message", (message) => {
 });
 
 // Connection with the token
-client.login(process.env.BOT_TOKEN);
+let bot_token = process.env.BOT_TOKEN;
+
+client.login(bot_token);
