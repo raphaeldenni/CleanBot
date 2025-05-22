@@ -1,23 +1,27 @@
+const { SlashCommandBuilder } = require('discord.js');
+
 module.exports = {
-    name: 'role',
-    description: 'Affiche le nombre de personnes pour chaque rôle de région',
-    execute: async (message, args) => {
+	data: new SlashCommandBuilder()
+		.setName('role')
+		.setDescription('Affiche le nombre de personnes pour chaque rôle de région'),
 
-        message.delete({ timeout: 1 });
-
-        const roles = await message.guild.roles.fetch()
+	async execute(interaction) {
+        const roles = await interaction.guild.roles.fetch()
             .then(res => [...res.cache.values()]);
 
-        message.reply({
-            embed: {
+		await interaction.reply({embeds: 
+            [{
                 color: 0x2140b6,
                 title: '**Voici la liste des rôles de régions et la répartition des membres :**',
                 description: roles.filter(r => r.name != "@everyone").map(role => `${role.name} : ${role.members.size}`).join('\n'),
 
-            }
+            }]
+
         });
-    }
-}
+
+	},
+    
+};
 
 /*
 Copyright 2021-2022 Raphaël DENNI & Cleanwalk.org

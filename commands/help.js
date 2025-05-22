@@ -1,21 +1,26 @@
+const { SlashCommandBuilder } = require('discord.js');
+
 module.exports = {
-    name: 'help',
-    description: 'Affiche un liste des commandes disponibles',
-    execute(message, args) {
-        message.delete({timeout: 1});
-        message.reply({embed : {
-            color: 0x2140b6,
-            description: '📜 Une liste des commandes disponibles vous a été envoyé en message privé',
-        }})
-        message.author.createDM().then(channel => {
-            channel.send({embed : {
+	data: new SlashCommandBuilder()
+		.setName('help')
+		.setDescription('Affiche un liste des commandes disponibles'),
+
+	async execute(interaction) {
+		await interaction.reply({embeds : 
+            [{
                 color: 0x2140b6,
-                title: `\nSalut ${message.author.username} 👋, voici les commandes de CleanBot :\n\n`,
-                description: '**_help** [*Affiche un liste des commandes disponibles et leurs effets*]\n**_ping** [*Affiche la latence du bot en ms*]\n**_role** [*Affiche le nombre de personnes connectées des différentes régions*]\n**_infocleanwalk** [*Affiche les cinq prochaines cleanwalk*]',
-            }})
-        })
-    }
-}
+                title: `\n📜 Voici les commandes de CleanBot :\n\n`,
+                description: '**/help** [*Affiche un liste des commandes disponibles et leurs effets*]\n**/ping** [*Affiche la latence du bot en ms*]\n**/role** [*Affiche le nombre de personnes connectées des différentes régions*]\n**/infocleanwalk** [*Affiche les cinq prochaines cleanwalk*]',
+        
+            }],
+
+            ephemeral : false
+    
+        });
+
+    },
+    
+};
 
 /*
 Copyright 2021-2022 Raphaël DENNI & Cleanwalk.org

@@ -2,83 +2,73 @@
 // Github : https://github.com/SlyEyes
 
 // Const of the bot
-const { Discord, Client, Permissions, Collection, MessageAttachment} = require('discord.js');
+const { Client, Events, GatewayIntentBits, Collection, MessageAttachment, GuildMember } = require('discord.js');
 
-const fs = require("fs");
+const fs = require("node:fs");
+const path = require('node:path');
 
-const Canvas = require('canvas');
+const Canvas = require('@napi-rs/canvas');
 
 const config = require("./ressources/config.json");
 
-Canvas.registerFont('./ressources/OdibeeSans-Regular.ttf', { family: 'Odibee' })
+//Canvas.registerFont('./ressources/OdibeeSans-Regular.ttf', { family: 'Odibee' });
 
 require("dotenv").config();
 
+const welcome_channel = config.welcome_channel;
 
-const intents = ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS', 'GUILD_PRESENCES']
+const count_channel = config.count_channel;
 
-const client = new Client({intents: intents, ws:{intents: intents}});
 
-const prefix = config.prefix
+// Create the client
+const client = new Client({ 
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers
+		
+	] });
 
 client.commands = new Collection();
 
-const welcome_channel = config.welcome_channel
 
-const count_channel = config.count_channel
+// Search for the commands files and add them to a collection
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-const welcome_off = config.welcome_off
+for (const file of commandFiles) {
+	const filePath = path.join(commandsPath, file);
+	const command = require(filePath);
 
-// Connection with the token
-client.login(process.env.BOT_TOKEN);
+	// Set a new item in the Collection with the key as the command name and the value as the exported module
+	if ('data' in command && 'execute' in command) {
+		client.commands.set(command.data.name, command);
 
-// Search for the commands and modules files and add them to a collection
-function fileSearch(folderName) {
-  const Files = fs.readdirSync(`./${folderName}`).filter(file => file.endsWith('.js'));
-  console.log(Files);
+	} else {
+		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 
-  for (const file of Files) {
-    const fileName = require(`./${folderName}/${file}`);
-    client.commands.set(fileName.name, fileName);
-  }
-
-  console.log(client.commands);
+	}
 
 };
 
-fileSearch('commands')
-fileSearch('modules')
+// Search for the events files and add them to a collection
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-// Status of the bot
-client.on("ready", () =>{
-  client.user.setPresence({
-      status: "online",
-      activity: {
-          name: `${prefix}help et cleanwalk.org`,
-          type: "WATCHING"
-  }});
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
 
-  console.log("\nCleanBot#9208 connected !");
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
 
-})
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
 
-// Read the message of the user and execute or not a command
-client.on('message', message => {
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+	}
 
-  const args = message.content.slice(prefix.length).trim().split(/ +/);
-  const command = args.shift().toLowerCase();
-
-  try {
-    client.commands.get(command).execute(message);
-  } catch (err) {
-    message.channel.send({embed : {
-      color: 0xff0000,
-      description: `❌ La commande "${prefix}${command}" n'existe pas ou je n'ai pas la permission d'agir !`,
-    }});
-    console.log(err);
-  }
-});
+}
 
 client.on('message', message => {
 	if (message.content === '!join' && message.member.hasPermission('ADMINISTRATOR') == true){
@@ -86,15 +76,9 @@ client.on('message', message => {
 	}
 });
 
-// Welcome message
-client.on('guildMemberAdd', async member => {
-  client.commands.get('welcome').execute(member, Canvas, MessageAttachment, welcome_channel);
-  });
+// Connection with the token
+client.login(process.env.BOT_TOKEN);
 
-// Count replacement
-client.on('message', message => {
-  client.commands.get('count_replace').execute(message, count_channel);
-});
 
 /*
 Copyright 2021-2022 Raphaël DENNI & Cleanwalk.org

@@ -6,13 +6,14 @@ A bot for the [Discord server](https://discord.gg/S7ADp8AEYA) of the french clea
 ## Requirements
 
 You need to download the following module with npm :
-- Discord.js (v12) : `npm i discord.js@12.X.X`
+- Discord.js (v14) : `npm i discord.js`
 - Dotenv (latest) : `npm i dotenv`
-- Canvas (latest) : `npm i canvas`
+- @napi-rs/canvas (latest) : `npm i @napi-rs/canvas`
 - Puppeteer (latest) : `npm i puppeteer`
 
 You need to provide 3 variables into a file located at `./ressources/config.json` :
-- `prefix` : a prefix for the bot
+- `clientId` : the client ID of your bot
+- `guildId` : the ID of the guild where the bot will be used
 - `welcome_channel` : the ID of the welcome channel
 - `count_channel` : the ID of the count channel
 

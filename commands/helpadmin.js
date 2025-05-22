@@ -1,32 +1,28 @@
+const { SlashCommandBuilder } = require('discord.js');
+
 module.exports = {
-    name: 'helpadmin',
-    description: 'Affiche un liste des commandes admins disponibles',
-    execute(message, args) {
+	data: new SlashCommandBuilder()
+		.setName('helpadmin')
+		.setDescription('Affiche un liste des commandes admins disponibles')
+        .setDefaultMemberPermissions(0),
 
-        message.delete({timeout: 1});
-
-        if(message.member.hasPermission('ADMINISTRATOR') != true) {
-            message.reply({embed : {
-                color: 0xff0000,
-                description: '❌ Vous n\'avez pas la permission d\'utiliser la commande _helpadmin',
-            }});
-
-            return;
-        };
-            
-        message.reply({embed : {
-            color: 0x2140b6,
-            description: '📜 Une liste des commandes admins disponibles vous a été envoyé en message privé',
-            }})
-        message.author.createDM().then(channel => {
-            channel.send({embed : {
+	async execute(interaction) {
+		await interaction.reply({embeds : 
+            [{
                 color: 0x2140b6,
-                title: `\nSalut ${message.author.username} 👋, voici les commandes admins de CleanBot :\n\n`,
-                description: '**_helpadmin** [*Affiche un liste des commandes admins disponibles et leurs effets*]',
-            }})
-        })
-    }
-}
+                title: `\n📜 Voici les commandes admins de CleanBot :\n\n`,
+                description: '**/help** [*Affiche un liste des commandes disponibles et leurs effets*]\n**/ping** [*Affiche la latence du bot en ms*]\n**/role** [*Affiche le nombre de personnes connectées des différentes régions*]\n**/infocleanwalk** [*Affiche les cinq prochaines cleanwalk*]',
+        
+            }],
+
+            ephemeral : false
+    
+        });
+
+    },
+    
+};
+
 
 /*
 Copyright 2021-2022 Raphaël DENNI & Cleanwalk.org
