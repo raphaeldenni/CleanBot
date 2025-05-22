@@ -1,0 +1,7 @@
+services:
+  cleanbot:
+    container_name: cleanbot
+    image: ghcr.io/raphaeldenni/cleanbot:release
+    restart: unless-stopped
+    env_file:
+      - .env

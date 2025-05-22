@@ -1,0 +1,15 @@
+.vscode/
+.idea/
+.DS_Store/
+
+.git/
+.github/
+.gitignore
+
+scripts/
+.env
+README.md
+
+.dockerignore
+compose*.yaml
+Dockerfile
