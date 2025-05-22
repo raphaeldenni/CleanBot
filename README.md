@@ -9,7 +9,7 @@ You need to download the following module with npm :
 - Discord.js (v14) : `npm i discord.js`
 - Dotenv (latest) : `npm i dotenv`
 - @napi-rs/canvas (latest) : `npm i @napi-rs/canvas`
-- Puppeteer (latest) : `npm i puppeteer`
+- Moment.js (latest) : `npm i moment`
 
 You need to provide 3 variables into a file located at `./ressources/config.json` :
 - `clientId` : the client ID of your bot

@@ -2,7 +2,7 @@
 // Github : https://github.com/SlyEyes
 
 // Const of the bot
-const { Client, Events, GatewayIntentBits, Collection, MessageAttachment, GuildMember } = require('discord.js');
+const { Client, GatewayIntentBits, Collection} = require('discord.js');
 
 const fs = require("node:fs");
 const path = require('node:path');
@@ -70,6 +70,7 @@ for (const file of eventFiles) {
 
 }
 
+// Test command
 client.on('message', message => {
 	if (message.content === '!join' && message.member.hasPermission('ADMINISTRATOR') == true){
 		client.emit('guildMemberAdd', message.member);
