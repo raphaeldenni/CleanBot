@@ -10,7 +10,7 @@ module.exports = {
         message.delete({timeout: 1});
 
         message.channel.send({embed : {
-            color: '#0000ff',
+            color: '#2140b6',
             description: `:chart_with_upwards_trend: ${num}`,
             footer: ({text: `${message.author.username}`, iconURL: `${message.author.avatarURL()}`})
         }});

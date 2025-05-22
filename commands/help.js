@@ -11,7 +11,7 @@ module.exports = {
             channel.send({embed : {
                 color: 0x2140b6,
                 title: `\nSalut ${message.author.username} 👋, voici les commandes de CleanBot :\n\n`,
-                description: '**_help** [*Affiche un liste des commandes disponibles et leurs effets*]\n**_ping** [*Affiche la latence du bot en ms*]\n**_role** [*Affiche le nombre de personnes connectées des différentes régions*]',
+                description: '**_help** [*Affiche un liste des commandes disponibles et leurs effets*]\n**_ping** [*Affiche la latence du bot en ms*]\n**_role** [*Affiche le nombre de personnes connectées des différentes régions*]\n**_infocleanwalk** [*Affiche les cinq prochaines cleanwalk*]',
             }})
         })
     }
