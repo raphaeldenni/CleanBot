@@ -1,13 +1,28 @@
-// CleanBot#9208 by Raphaël Denni aka SlyEyes#5557
-// Github : https://github.com/SlyEyes
+/*
+A bot for the Discord server of the french cleanwalk platform Cleanwalk.org
+Copyright (C) 2021-2025  Raphaël DENNI
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 // Const of the bot
-const { Client, GatewayIntentBits, Collection} = require('discord.js');
+const { Client, GatewayIntentBits, Collection } = require("discord.js");
 
 const fs = require("node:fs");
-const path = require('node:path');
+const path = require("node:path");
 
-const Canvas = require('@napi-rs/canvas');
+const Canvas = require("@napi-rs/canvas");
 
 const config = require("./ressources/config.json");
 
@@ -19,80 +34,64 @@ const welcome_channel = config.welcome_channel;
 
 const count_channel = config.count_channel;
 
-
 // Create the client
-const client = new Client({ 
-	intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildMembers
-		
-	] });
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers,
+  ],
+});
 
 client.commands = new Collection();
 
-
 // Search for the commands files and add them to a collection
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commandsPath = path.join(__dirname, "commands");
+const commandFiles = fs
+  .readdirSync(commandsPath)
+  .filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
-	const filePath = path.join(commandsPath, file);
-	const command = require(filePath);
+  const filePath = path.join(commandsPath, file);
+  const command = require(filePath);
 
-	// Set a new item in the Collection with the key as the command name and the value as the exported module
-	if ('data' in command && 'execute' in command) {
-		client.commands.set(command.data.name, command);
-
-	} else {
-		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-
-	}
-
-};
+  // Set a new item in the Collection with the key as the command name and the value as the exported module
+  if ("data" in command && "execute" in command) {
+    client.commands.set(command.data.name, command);
+  } else {
+    console.log(
+      `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+    );
+  }
+}
 
 // Search for the events files and add them to a collection
-const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter((file) => file.endsWith(".js"));
 
 for (const file of eventFiles) {
-	const filePath = path.join(eventsPath, file);
-	const event = require(filePath);
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
 
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args));
-
-	} else {
-		client.on(event.name, (...args) => event.execute(...args));
-
-	}
-
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
+  }
 }
 
 // Test command
-client.on('message', message => {
-	if (message.content === '!join' && message.member.hasPermission('ADMINISTRATOR') == true){
-		client.emit('guildMemberAdd', message.member);
-	}
+client.on("message", (message) => {
+  if (
+    message.content === "!join" &&
+    message.member.hasPermission("ADMINISTRATOR") == true
+  ) {
+    client.emit("guildMemberAdd", message.member);
+  }
 });
 
 // Connection with the token
 client.login(process.env.BOT_TOKEN);
-
-
-/*
-Copyright 2021-2022 Raphaël DENNI & Cleanwalk.org
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
