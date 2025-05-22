@@ -1,10 +1,11 @@
 module.exports = {
     name: 'helpadmin',
     description: 'Affiche un liste des commandes admins disponibles',
-    execute(message) {
+    execute(message,member) {
 
-        if (message.author.guild.me.hasPermission('ADMINISTRATOR')) {
-            message.delete({timeout: 1});
+        message.delete({timeout: 1});
+
+        if (message.member.hasPermission('ADMINISTRATOR')) {
             message.reply({embed : {
                 color: 0x2140b6,
                 description: '📜 Une liste des commandes admins disponibles vous a été envoyé en message privé',
@@ -17,7 +18,6 @@ module.exports = {
                 }})
             })
         } else {
-            message.delete({timeout: 1});
             message.reply({embed : {
                 color: 0xff0000,
                 description: '❌ Vous n\'avez pas la permission d\'utiliser la commande _helpadmin',
