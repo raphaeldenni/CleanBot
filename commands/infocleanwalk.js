@@ -18,7 +18,7 @@ module.exports = {
         for (i = 0; i < 5; i++) {
           try {
           let url = document.getElementsByClassName('media')[i].href.trim();
-          let title = document.getElementsByClassName('title is-4')[i].innerHTML.trim();get
+          let title = document.getElementsByClassName('title is-4')[i].innerHTML.trim()
           /*
           let elements = document.querySelectorAll('.flex items-center')[i];
           console.log(elements)
@@ -57,8 +57,8 @@ module.exports = {
             color : '#2140b6',
             url : scrap[i],
             title : scrap[i+1],
-            description : 'Localisation : ' + scrap[i+2] + '\nDate et heure : ' + scrap[i+3],
-            author : {url : scrap[i+4], name : scrap[i+5], iconURL : scrap[i+6]},
+            //description : 'Localisation : ' + scrap[i+2] + '\nDate et heure : ' + scrap[i+3],
+            author : {url : scrap[i+2], name : scrap[i+3], iconURL : scrap[i+4]},
           }});
           i += 5;
         };
