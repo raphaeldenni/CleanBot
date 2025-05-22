@@ -1,24 +1,22 @@
-# Cleanbot
+# CleanBot
 A bot for the [Discord server](https://discord.gg/S7ADp8AEYA) of the french cleanwalk platform [Cleanwalk.org](https://cleanwalk.org)
 
-![.](https://i.imgur.com/qtd1Ry1.png)
+## Dependencies
+- Discord.js (v14)
+- Dotenv (latest)
+- @napi-rs/canvas (latest)
+- Moment.js (latest)
 
-## Requirements
+The project use the **PNPM** package manager!
 
-You need to download the following module with npm :
-- Discord.js (v14) : `npm i discord.js`
-- Dotenv (latest) : `npm i dotenv`
-- @napi-rs/canvas (latest) : `npm i @napi-rs/canvas`
-- Moment.js (latest) : `npm i moment`
+## Environment
 
-You need to provide 3 variables into a file located at `./ressources/config.json` :
+3 variables are required to be into a file located at `./ressources/config.json` :
 - `clientId` : the client ID of your bot
 - `guildId` : the ID of the guild where the bot will be used
 - `welcome_channel` : the ID of the welcome channel
 - `count_channel` : the ID of the count channel
 
-You need to provide the bot's token into a `.env` file with this format : 
+The project use a `.env` file for the token :
 
 `BOT_TOKEN=[your_token]`
-
-Finally, you need to download `OdibeeSans-Regular` font into the `ressources` folder.
