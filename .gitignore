@@ -1,4 +1,6 @@
+.vscode/
+.idea/
+.DS_Store/
+
 node_modules
-ressources
 .env
-/deploy-commands.js

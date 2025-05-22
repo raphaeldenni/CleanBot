@@ -1,4 +1,4 @@
-# CleanBot
+# CleanBot for Cleanwalk.org
 A bot for the [Discord server](https://discord.gg/S7ADp8AEYA) of the french cleanwalk platform [Cleanwalk.org](https://cleanwalk.org)
 
 ## Dependencies
