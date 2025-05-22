@@ -1,6 +1,5 @@
 {
     "prefix" : "_",
     "language" : "fr",
-    "CHANNEL_WELCOME": "",
-    "ROLES_WELCOME": ["",""]
+    "welcome_channel": "test-1"
 }
