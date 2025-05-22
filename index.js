@@ -11,8 +11,6 @@ const config = require("./modules/config.json");
 const prefix = config.prefix
 client.commands = new Collection();
 
-const Canvas = require('canvas');
-
 // Connection with the token
 client.login(process.env.BOT_TOKEN);
 
@@ -22,7 +20,7 @@ console.log(commandFiles);
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command)
+  client.commands.set(command.name, command);
 }
 console.log(client.commands);
 
@@ -54,40 +52,10 @@ client.on('message', message => {
     message.channel.send({embed : {
       color: 0xff0000,
       description: `❌ La commande "${prefix}${command}" n'existe pas ou je n'ai pas la permission d'agir !`,
-    }})
+    }});
+    console.log(err);
   }
 });
-
-// Welcome message for new member
-client.on('guildMemberAdd', async member  => {
-
-  const channel = member.guild.channels.cache.find(ch => ch.name === config.welcome_channel);
-	if (!channel) return;
-
-  const canvas = Canvas.createCanvas(750, 250);
-
-  const ctx = canvas.getContext('2d');
-
-  const background = await Canvas.loadImage("./modules/images/welcome.png");
-
-  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-  ctx.strokeStyle = "#161b28";
-  ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-  ctx.font = '70px sans-serif';
-  ctx.fillStyle = "#ffffff";
-  ctx.fillText(`Bienvenue !`, 50, 40);
-	
-	const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: 'jpg' }));
-	ctx.drawImage(avatar, 25, 25, 200, 200);
-	
-  ctx.beginPath();
-
-	const attachment = new Discord.Attachment(canvas.toBuffer(), 'custom__image.png');
-
-  await message.channel.send(attachment);
-
-})
 
 /*
 Copyright 2021 Raphaël DENNI & Cleanwalk.org
