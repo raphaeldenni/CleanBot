@@ -4,9 +4,9 @@ module.exports = {
     execute(message) {
         message.delete({timeout: 1});
         message.reply({embed : {
-            color: 0x00ffff,
+            color: 0x152975,
             title: 'Pong 🏓',
-            description: `Latence du bot : ${Date.now() - message.createdTimestamp}ms`,
+            description: `Latence du bot : ${Date.now() - message.createdTimestamp} ms`,
         }})
     }
 }
