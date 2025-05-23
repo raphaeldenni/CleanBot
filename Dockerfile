@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:22-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -15,4 +15,8 @@ RUN pnpm install
 
 COPY . /app
 
+FROM base AS dev
+CMD [ "pnpm", "start" ]
+
+FROM base
 CMD [ "pnpm", "start-full" ]
