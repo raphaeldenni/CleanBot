@@ -16,10 +16,10 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { SlashCommandBuilder } = require("discord.js");
-const moment = require("moment");
+import { SlashCommandBuilder } from "discord.js";
+import moment from "moment";
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("infocleanwalk")
     .setDescription("Affiche les cinq prochaines cleanwalks"),

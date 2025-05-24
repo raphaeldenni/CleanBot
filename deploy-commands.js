@@ -16,21 +16,16 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-const { REST, Routes } = require("discord.js");
-require("dotenv").config();
-const fs = require("node:fs");
-const path = require("node:path");
+import { REST, Routes } from "discord.js";
+import fs from "node:fs";
+import path from "node:path";
+import dotenv from "dotenv";
 
-const clientId = process.env.CLIENT_ID;
-const guildId = process.env.GUILD_ID;
-const guildIdTest = process.env.GUILD_ID_TEST;
-const token = process.env.BOT_TOKEN;
-
-function getCommands() {
+async function getCommands() {
   const commands = [];
 
   // Grab all the command folders from the commands directory you created earlier
-  const foldersPath = path.join(__dirname, "commands");
+  const foldersPath = path.join(process.cwd(), "commands");
   const commandFolders = fs.readdirSync(foldersPath);
 
   for (const folder of commandFolders) {
@@ -43,15 +38,9 @@ function getCommands() {
     // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
     for (const file of commandFiles) {
       const filePath = path.join(commandsPath, file);
-      const command = require(filePath);
+      const { default: command } = await import(filePath);
 
-      if ("data" in command && "execute" in command) {
-        commands.push(command.data.toJSON());
-      } else {
-        console.log(
-          `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
-        );
-      }
+      commands.push(command.data.toJSON());
     }
   }
 
@@ -64,6 +53,8 @@ async function setGuildCommands(rest, guildId, commands) {
     return;
   }
 
+  const clientId = process.env.CLIENT_ID;
+
   const data = await rest.put(
     Routes.applicationGuildCommands(clientId, guildId),
     { body: commands },
@@ -75,8 +66,12 @@ async function setGuildCommands(rest, guildId, commands) {
 }
 
 function sendCommands(commands) {
-  // Construct and prepare an instance of the REST module
+  const token = process.env.BOT_TOKEN;
+
   const rest = new REST().setToken(token);
+
+  const guildId = process.env.GUILD_ID;
+  const guildIdTest = process.env.GUILD_ID_TEST;
 
   // and deploy your commands!
   (async () => {
@@ -96,8 +91,11 @@ function sendCommands(commands) {
 }
 
 // Main function
-function main() {
-  const commands = getCommands();
+async function main() {
+  dotenv.config();
+
+  const commands = await getCommands();
+
   sendCommands(commands);
 }
 

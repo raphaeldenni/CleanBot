@@ -17,14 +17,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 // Const of the bot
-const { Client, GatewayIntentBits, Collection } = require("discord.js");
+import { Client, GatewayIntentBits, Collection } from "discord.js";
 
-const fs = require("node:fs");
-const path = require("node:path");
+import fs from "node:fs";
+import path from "node:path";
 
-const Canvas = require("@napi-rs/canvas");
+import dotenv from "dotenv";
 
-require("dotenv").config();
+// const Canvas = require("@napi-rs/canvas");
 
 //const config = require("./ressources/config.json");
 
@@ -46,34 +46,31 @@ const client = new Client({
 
 client.commands = new Collection();
 
-// Search for the commands files and add them to a collection
-const commands = [];
-// Grab all the command folders from the commands directory you created earlier
-const foldersPath = path.join(__dirname, "commands");
+const foldersPath = path.join(process.cwd(), "commands");
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
-  // Grab all the command files from the commands directory you created earlier
   const commandsPath = path.join(foldersPath, folder);
   const commandFiles = fs
     .readdirSync(commandsPath)
     .filter((file) => file.endsWith(".js"));
 
-  // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
   for (const file of commandFiles) {
     client.commands.set(file, file);
   }
 }
 
 // Search for the events files and add them to a collection
-const eventsPath = path.join(__dirname, "events");
+const eventsPath = path.join(process.cwd(), "events");
+
 const eventFiles = fs
   .readdirSync(eventsPath)
   .filter((file) => file.endsWith(".js"));
 
 for (const file of eventFiles) {
   const filePath = path.join(eventsPath, file);
-  const event = require(filePath);
+
+  const { default: event } = await import(filePath);
 
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args));
@@ -93,6 +90,8 @@ client.on("message", (message) => {
 });
 
 // Connection with the token
-let bot_token = process.env.BOT_TOKEN;
+dotenv.config();
+
+const bot_token = process.env.BOT_TOKEN;
 
 client.login(bot_token);
