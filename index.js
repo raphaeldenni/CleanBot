@@ -46,18 +46,16 @@ const client = new Client({
 
 client.commands = new Collection();
 
-const foldersPath = path.join(process.cwd(), "commands");
-const commandFolders = fs.readdirSync(foldersPath);
+const commandsPath = path.join(process.cwd(), "commands");
+const commandsFiles = fs
+  .readdirSync(commandsPath)
+  .filter((file) => file.endsWith(".js"));
 
-for (const folder of commandFolders) {
-  const commandsPath = path.join(foldersPath, folder);
-  const commandFiles = fs
-    .readdirSync(commandsPath)
-    .filter((file) => file.endsWith(".js"));
+for (const file of commandsFiles) {
+  const filePath = path.join(commandsPath, file);
+  const { default: command } = await import(filePath);
 
-  for (const file of commandFiles) {
-    client.commands.set(file, file);
-  }
+  client.commands.set(command.data.name, command);
 }
 
 // Search for the events files and add them to a collection
