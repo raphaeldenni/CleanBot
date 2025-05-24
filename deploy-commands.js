@@ -25,23 +25,16 @@ async function getCommands() {
   const commands = [];
 
   // Grab all the command folders from the commands directory you created earlier
-  const foldersPath = path.join(process.cwd(), "commands");
-  const commandFolders = fs.readdirSync(foldersPath);
+  const commandsPath = path.join(process.cwd(), "commands");
+  const commandsFile = fs
+    .readdirSync(commandsPath)
+    .filter((file) => file.endsWith(".js"));
 
-  for (const folder of commandFolders) {
-    // Grab all the command files from the commands directory you created earlier
-    const commandsPath = path.join(foldersPath, folder);
-    const commandFiles = fs
-      .readdirSync(commandsPath)
-      .filter((file) => file.endsWith(".js"));
+  for (const file of commandsFile) {
+    const filePath = path.join(commandsPath, file);
+    const { default: command } = await import(filePath);
 
-    // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
-    for (const file of commandFiles) {
-      const filePath = path.join(commandsPath, file);
-      const { default: command } = await import(filePath);
-
-      commands.push(command.data.toJSON());
-    }
+    commands.push(command.data.toJSON());
   }
 
   return commands;
