@@ -44,6 +44,7 @@ const client = new Client({
   ],
 });
 
+// @ts-ignore
 client.commands = new Collection();
 
 const commandsPath = path.join(process.cwd(), "commands");
@@ -55,6 +56,7 @@ for (const file of commandsFiles) {
   const filePath = path.join(commandsPath, file);
   const { default: command } = await import(filePath);
 
+  // @ts-ignore
   client.commands.set(command.data.name, command);
 }
 

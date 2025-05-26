@@ -6,6 +6,8 @@
 .github/
 .gitignore
 
+node_modules/
+dist/
 scripts/
 .env
 README.md

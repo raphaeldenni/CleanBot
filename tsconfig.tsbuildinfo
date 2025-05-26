@@ -1,0 +1,1 @@
+{"root":["./src/deploy-commands.ts","./src/index.ts","./src/commands/help.ts","./src/commands/helpadmin.ts","./src/commands/infocleanwalk.ts","./src/commands/ping.ts","./src/commands/role.ts","./src/events/countReplace.ts","./src/events/interactionCreate.ts","./src/events/memberAdd.ts","./src/events/ready.ts"],"errors":true,"version":"5.8.3"}
