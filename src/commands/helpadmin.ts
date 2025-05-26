@@ -16,7 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { SlashCommandBuilder } from "discord.js";
+import { Interaction, SlashCommandBuilder } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -24,7 +24,8 @@ export default {
     .setDescription("Affiche un liste des commandes admins disponibles")
     .setDefaultMemberPermissions(0),
 
-  async execute(interaction) {
+  async execute(interaction: Interaction) {
+    // @ts-ignore
     await interaction.reply({
       embeds: [
         {

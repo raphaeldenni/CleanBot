@@ -16,17 +16,18 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Events } from "discord.js";
+import { Canvas } from "@napi-rs/canvas";
+import { Events, Client, GuildMember } from "discord.js";
 
 export default {
   name: Events.GuildMemberAdd,
   once: true,
   execute: async (
-    client,
-    member,
-    Canvas,
-    MessageAttachment,
-    welcome_channel,
+    client: Client,
+    member: GuildMember,
+    Canvas: Canvas,
+    MessageAttachment: any,
+    welcome_channel: string,
   ) => {
     /// Destination channel
     const channel = member.guild.channels.cache.find(
@@ -35,10 +36,12 @@ export default {
     if (!channel) return;
 
     /// Create a new canva
+    // @ts-ignore
     const canvas = Canvas.createCanvas(700, 350);
     const ctx = canvas.getContext("2d");
 
     /// Select a background
+    // @ts-ignore
     const background = await Canvas.loadImage(
       "./ressources/images/welcome.png",
     );
@@ -72,7 +75,9 @@ export default {
     ctx.closePath();
     ctx.clip();
 
+    // @ts-ignore
     const avatar = await Canvas.loadImage(
+      // @ts-ignore
       member.user.displayAvatarURL({ format: "png" }),
     );
     ctx.drawImage(avatar, 25, 25, 200, 200);
@@ -87,6 +92,7 @@ export default {
     // channel.send(`Bienvenue ${member} ! <:bvn:978229351738900611> <:cw:978229351738900611>\nNous sommes maintenant **${member.guild.memberCount}** sur **${member.guild.name}** !\n*N'hésite pas à te présenter dans le salon <#978229351738900611> et à aller prendre d'autres rôles dans le salon <#978229351738900611>*`, attachment);
 
     // Embed version
+    // @ts-ignore
     channel.send({
       embed: {
         color: "#0000ff",
@@ -94,6 +100,7 @@ export default {
       },
     });
 
+    // @ts-ignore
     channel.send(attachment);
   },
 };

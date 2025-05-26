@@ -16,12 +16,13 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Events } from "discord.js";
+import { Client, Events } from "discord.js";
 
 export default {
   name: Events.ClientReady,
   once: true,
-  execute(client) {
+  execute(client: Client) {
+    // @ts-ignore
     console.log(`Ready! Logged in as ${client.user.tag}`);
   },
 };

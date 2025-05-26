@@ -16,13 +16,14 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Events } from "discord.js";
+import { Events, Interaction } from "discord.js";
 
 export default {
   name: Events.InteractionCreate,
-  async execute(interaction) {
+  async execute(interaction: Interaction) {
     if (!interaction.isChatInputCommand()) return;
 
+    // @ts-ignore
     const command = interaction.client.commands.get(interaction.commandName);
 
     if (!command) {

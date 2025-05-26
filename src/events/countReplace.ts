@@ -16,12 +16,12 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Events } from "discord.js";
+import { Client, Events, Message } from "discord.js";
 
 export default {
   name: Events.MessageCreate,
   once: true,
-  execute(client, message, count_channel) {
+  execute(client: Client, message: Message, count_channel: string) {
     /*num = parseInt(message.content);
 
         if (message.author.bot || message.channel.id != count_channel || isNaN(num)) return;

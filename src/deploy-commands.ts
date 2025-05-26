@@ -37,50 +37,59 @@ async function getCommands() {
     commands.push(command.data.toJSON());
   }
 
+  if (commands.length === 0) {
+    console.warn("No commands found. Guild(s) commands will not be set.");
+  }
+
   return commands;
 }
 
-async function setGuildCommands(rest, guildId, commands) {
+async function setGuildCommands(guildId: string | undefined, commands: any[]) {
   if (guildId === undefined) {
     console.warn("A guild ID is not defined.");
     return;
   }
 
-  const clientId = process.env.CLIENT_ID;
+  const token: string | undefined = process.env.BOT_TOKEN;
+  const clientId: string | undefined = process.env.CLIENT_ID;
 
-  const data = await rest.put(
-    Routes.applicationGuildCommands(clientId, guildId),
-    { body: commands },
-  );
+  if (token === undefined || clientId === undefined) {
+    console.error("Bot credentials are not defined.");
+    return;
+  }
+
+  const rest = new REST().setToken(token);
+  let data: any[] | unknown;
+
+  try {
+    data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+      body: commands,
+    });
+  } catch (error) {
+    console.error("Error while setting guild commands:", error);
+    return;
+  }
+
+  if (!Array.isArray(data)) {
+    console.error("Unexpected response format:", data);
+    return;
+  }
 
   console.log(
     `Successfully reloaded ${data.length} application (/) commands in guild ${guildId}.`,
   );
 }
 
-function sendCommands(commands) {
-  const token = process.env.BOT_TOKEN;
-
-  const rest = new REST().setToken(token);
-
+function sendCommands(commands: any[]) {
   const guildId = process.env.GUILD_ID;
   const guildIdTest = process.env.GUILD_ID_TEST;
 
-  // and deploy your commands!
-  (async () => {
-    try {
-      console.log(
-        `Started refreshing ${commands.length} application (/) commands.`,
-      );
+  console.log(
+    `Started refreshing ${commands.length} application (/) commands.`,
+  );
 
-      // The put method is used to fully refresh all commands in the guild with the current set
-      setGuildCommands(rest, guildIdTest, commands);
-      setGuildCommands(rest, guildId, commands);
-    } catch (error) {
-      // And of course, make sure you catch and log any errors!
-      console.error(error);
-    }
-  })();
+  setGuildCommands(guildIdTest, commands);
+  setGuildCommands(guildId, commands);
 }
 
 // Main function

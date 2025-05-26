@@ -16,7 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { SlashCommandBuilder } from "discord.js";
+import { Interaction, Message, SlashCommandBuilder } from "discord.js";
 import moment from "moment";
 
 export default {
@@ -24,7 +24,7 @@ export default {
     .setName("infocleanwalk")
     .setDescription("Affiche les cinq prochaines cleanwalks"),
 
-  async execute(interaction, message) {
+  async execute(interaction: Interaction, message: Message) {
     // Get cleanwalks data
     let cleanwalks = await fetch(
       "https://cleanwalk-api.herokuapp.com/v1/cleanwalks",
@@ -33,6 +33,7 @@ export default {
       .then((data) => data);
 
     // Reply data with embed
+    // @ts-ignore
     await interaction.reply({
       embeds: [
         {

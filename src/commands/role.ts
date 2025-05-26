@@ -16,7 +16,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { SlashCommandBuilder } from "discord.js";
+import { Interaction, SlashCommandBuilder } from "discord.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -25,11 +25,14 @@ export default {
       "Affiche le nombre de personnes pour chaque rôle de région",
     ),
 
-  async execute(interaction) {
+  async execute(interaction: Interaction) {
+    // @ts-ignore
     const roles = await interaction.guild.roles
       .fetch()
+      // @ts-ignore
       .then((res) => [...res.cache.values()]);
 
+    // @ts-ignore
     await interaction.reply({
       embeds: [
         {
