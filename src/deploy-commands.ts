@@ -17,15 +17,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { REST, Routes } from "discord.js";
+
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import dotenv from "dotenv";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function getCommands() {
   const commands = [];
 
   // Grab all the command folders from the commands directory you created earlier
-  const commandsPath = path.join(process.cwd(), "commands");
+  const commandsPath = path.join(__dirname, "commands");
   const commandsFile = fs
     .readdirSync(commandsPath)
     .filter((file) => file.endsWith(".js"));
