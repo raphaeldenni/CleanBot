@@ -24,5 +24,8 @@
     "node",
     "bot",
     "Discord"
-  ]
+  ],
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
 }
