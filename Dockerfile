@@ -28,6 +28,4 @@ COPY --from=build /app-build/node_modules/ /app/node_modules/
 
 WORKDIR /app/
 
-RUN node deploy-commands.js
-
-CMD ["node", "index.js" ]
+CMD node deploy-commands.js && node index.js
