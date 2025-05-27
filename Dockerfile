@@ -1,5 +1,4 @@
 FROM node:22 AS base
-
 RUN corepack enable pnpm
 
 RUN mkdir /app-build/
@@ -16,6 +15,11 @@ COPY . /app-build/
 
 RUN pnpm tsc -b
 
+ARG TARGET_ENV=prod
+
+RUN if [ "$TARGET_ENV" = "prod" ]; then pnpm prune --prod; fi
+RUN if [ "$TARGET_ENV" = "prod" ]; then find /app-build -type f -name "*.map" -exec rm -f {} +; fi
+
 # ---
 
 FROM node:22-alpine
@@ -23,7 +27,6 @@ RUN addgroup -S app && adduser -S app -G app
 USER app
 
 COPY --from=build /app-build/dist/ /app/
-
 COPY --from=build /app-build/node_modules/ /app/node_modules/
 
 WORKDIR /app/

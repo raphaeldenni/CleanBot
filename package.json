@@ -4,7 +4,7 @@
   "type": "module",
   "packageManager": "pnpm@10.11.0",
   "description": "A discord bot for the Discord server of the french cleanwalk platform Cleanwalk.org",
-  "main": "index.js",
+  "main": "dist/index.js",
   "author": "Raphaël Denni",
   "scripts": {
     "deploy-commands": "node dist/deploy-commands.js",

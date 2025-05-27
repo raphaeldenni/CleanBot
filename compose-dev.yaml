@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        TARGET_ENV: dev
     restart: unless-stopped
     env_file:
       - .env
